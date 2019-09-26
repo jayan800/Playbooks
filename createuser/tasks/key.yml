@@ -1,0 +1,6 @@
+---
+- name: Configuring ssh keys
+  authorized_key:
+    user: "{{ item }}"
+    key: "{{ lookup('file', 'files/'+ item + '.key.pub') }}"
+  with_items: "{{ users }}"  

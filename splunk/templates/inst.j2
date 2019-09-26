@@ -1,0 +1,9 @@
+tar xvzf /root/{{ version }} -C /opt
+/opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --gen-and-print-passwd
+/opt/splunkforwarder/bin/splunk enable boot-start
+mkdir -p /opt/splunkforwarder/etc/apps/zzz_ds/local
+touch /opt/splunkforwarder/etc/apps/zzz_ds/local/deploymentclient.conf
+printf "[target-broker:deploymentServer]\n" | tee /opt/splunkforwarder/etc/apps/zzz_ds/local/deploymentclient.conf
+printf "# Change the targetUri\n" | tee -a /opt/splunkforwarder/etc/apps/zzz_ds/local/deploymentclient.conf
+printf "targetUri = https://splunk.com:8089\n" | tee -a /opt/splunkforwarder/etc/apps/zzz_ds/local/deploymentclient.conf
+sleep 60

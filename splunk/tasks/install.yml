@@ -1,0 +1,26 @@
+---
+- name: checking splunk installed or not
+  stat:
+    path: /opt/splunkforwarder
+  register: status
+- name: Copying setup    
+  when: status.stat.exists == false    
+  copy:
+    src: "{{ version }}"
+    dest: /root
+- name: copying script
+  template:
+    src: inst.j2
+    dest: /root/inst.sh
+    owner: ansible
+    mode: 0744
+- name: Configuring splunk
+  shell: /root/inst.sh
+  args:
+    executable: /bin/bash
+    creates: /opt/splunkforwarder
+  notify: restart splunk  
+    
+    
+  
+

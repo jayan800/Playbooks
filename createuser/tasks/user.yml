@@ -1,0 +1,15 @@
+---
+- name: cretaing group
+  group:
+    name: info
+    state: present
+- name: creating users
+  user:
+    name: "{{ item }}"
+    groups: info
+    state: present
+  with_items: "{{ users }}"  
+- name: sudo configuration
+  copy:
+    content: "%info ALL=(ALL) NOPASSWD: ALL"
+    dest: /etc/sudoers.d/infosec
